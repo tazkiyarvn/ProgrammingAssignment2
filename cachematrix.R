@@ -1,49 +1,32 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
+## makeCacheMatrix is a function that does 4 functions; 
+## setting the value of the matrix, getting the matrix,
+## setting the value of the inverse matrix, and getting it.
 
 makeCacheMatrix <- function(x = matrix()) {
   cache = NULL
-  setMatrix <- function(matrix){
-    cache$matrix <<- matrix
-    cache$inverse <<- NULL
+  setMatrix <- function(y){
+    x <<- y
+    cache <<- NULL
   }
-  getMatrix <- function() {
-    cache$matrix
-  }
-  setInverse <- function(inv) cache <<- inv
-  getInverse <- function(){
-    if(!is.null(cache$inverse)){
-      message("Getting cached inverse")
-      return(cache$inverse)
-    }else{
-      message("Calculating and caching inverse")
-      inv <- solve(cache$matrix)
-      cache$inverse <- inv
-      return(inv)
-    }
-  }
-  
+  getMatrix <- function() x
+  setInverse <- function(y) cache <<- y
+  getInverse <- function()y
   list(setMatrix = setMatrix, getMatrix = getMatrix, getInverse = getInverse)
 }
 
 
-## Write a short comment describing this function
+## cacheSolve checks whether the inverse value has been set or not
+## if it has been set, it will return the value, but if it has not,
+## it will compute and return it
 
-cacheSolve <- function(cacheMatrix) {
+cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-  if (is.null(cacheMatrix$getMatrix())){
-    stop("Matrix is not set. Use setMatrix() first")
-  }
-  
-  cachedInverse <- cacheMatrix$getInverse()
-  
-  if (!is.null(cachedInverse)){
-    return(cachedInverse)
+  if (!is.null(cache)){
+    message("getting cached data")
+    return(cache)
   } else{
     matrix <- cacheMatrix$getMatrix()
-    inv <- solve(matrix)
+    cache <- solve(matrix)
     cacheMatrix$setMatrix(matrix)
     cacheMatrix$getInverse()
   }
